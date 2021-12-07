@@ -2,9 +2,46 @@ version: '3.3'
 
 
 services:
+
+  book_api:
+    build:
+      context: .
+      dockerfile: BookApi/Dockerfile
+    image: book_api:1.0.0
+    container_name: book_api
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/book_project
+      - SPRING_REDIS_HOST=redis
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - app_network
+
+  db_worker:
+    build:
+      context: .
+      dockerfile: DbWorker/Dockerfile
+    image: db_worker:1.0.0
+    container_name: db_worker
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/book_project
+      - SPRING_REDIS_HOST=redis
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - app_network
+
   postgres:
     image: postgres:14
-    container_name: postgres_db
+    container_name: postgres
     environment:
       POSTGRES_DB: "book_project"
       POSTGRES_USER: "root"
@@ -14,7 +51,6 @@ services:
       - 5432:5432
     volumes:
       - database:/var/lib/postgresql/data
-      # - ${CONTAINERS_DATA_DIR_PATH}/database:/var/lib/postgresql/data
     networks:
       - app_network
 
@@ -29,12 +65,11 @@ services:
         - pgadmin:/var/lib/pgadmin
       ports:
         - "5050:80"
-      # restart: unless-stopped
-      # deploy:
-      #   resources:
-      #     limits:
-      #       cpus: '0.5'
-      #       memory: 1G
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: 1G
       networks:
         - app_network
   
@@ -54,8 +89,6 @@ services:
     container_name: rabbitmq
     volumes:
       - rabbitmq:/var/lib/rabbitmq/
-      # - ${CONTAINERS_DATA_DIR_PATH}/rabbitmq/var:/var
-      # - ${CONTAINERS_DATA_DIR_PATH}/rabbitmq/etc:/etc
     ports:
         - 5672:5672
         - 15672:15672

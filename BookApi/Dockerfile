@@ -12,7 +12,7 @@ COPY DbWorker/pom.xml DbWorker/pom.xml
 
 COPY pom.xml pom.xml
 
-RUN mvn clean package -pl BookApi
+RUN mvn -Dmaven.test.skip=true clean package -pl BookApi,Common
 
 FROM openjdk:11.0-jre
 WORKDIR /app
