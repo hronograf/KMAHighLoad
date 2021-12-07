@@ -4,6 +4,7 @@ Usage:
 - to run project, go to project directory and run in cmd `docker-compose up`
 - to make testing easier, project contains `postman_collection.json` file,<br/> 
 also, after application starts, pgadmin4 wiil be available at `localhost:5050` with password `admin`,<br/> 
+to connect to database, you can create new server inside pgadmin4:<br/> `hostname: postgres, port: 5432, maintenance databse: book_project, user: root, password: root`,<br/> 
 RabbitMq client wiil be available at `localhost:15672` with login and password `guest`,<br/>
 to connet to Redis, run in cmd `docker exec -it redis redis-cli`, after that run `keys *` inside redis-cli to check cache content
 <br/>
