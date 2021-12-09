@@ -7,12 +7,11 @@ COPY BookApi/pom.xml BookApi/pom.xml
 COPY Common/src Common/src
 COPY Common/pom.xml Common/pom.xml
 
-COPY DbWorker/src DbWorker/src
 COPY DbWorker/pom.xml DbWorker/pom.xml
 
 COPY pom.xml pom.xml
 
-RUN mvn -Dmaven.test.skip=true clean package -pl BookApi,Common
+RUN mvn clean package -pl BookApi,Common
 
 FROM openjdk:11.0-jre
 WORKDIR /app
