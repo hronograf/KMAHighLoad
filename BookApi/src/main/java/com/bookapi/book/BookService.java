@@ -1,5 +1,6 @@
 package com.bookapi.book;
 
+import com.common.book.BookEntity;
 import com.common.book.BookRepository;
 import com.bookapi.book.dto.BookInfoDto;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class BookService {
 
     @Cacheable(cacheNames = "book", key = "#id", unless="#result == null")
     public BookInfoDto getBookInfo(UUID id) {
-        return new BookInfoDto(bookRepository.findById(id).orElseThrow(RuntimeException::new));
+//        return new BookInfoDto(bookRepository.findById(id).orElseThrow(RuntimeException::new));
+        return new BookInfoDto(new BookEntity());
     }
 
     @Cacheable(cacheNames = "bookList")
