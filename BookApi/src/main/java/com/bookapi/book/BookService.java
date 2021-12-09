@@ -1,5 +1,6 @@
 package com.bookapi.book;
 
+import com.common.book.BookEntity;
 import com.common.book.BookRepository;
 import com.bookapi.book.dto.BookInfoDto;
 import lombok.RequiredArgsConstructor;

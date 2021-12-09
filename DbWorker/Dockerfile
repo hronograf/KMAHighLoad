@@ -1,7 +1,6 @@
 FROM maven:3.6-jdk-11 as builder
 WORKDIR /app
 
-COPY BookApi/src BookApi/src
 COPY BookApi/pom.xml BookApi/pom.xml
 
 COPY Common/src Common/src
@@ -12,7 +11,7 @@ COPY DbWorker/pom.xml DbWorker/pom.xml
 
 COPY pom.xml pom.xml
 
-RUN mvn -Dmaven.test.skip=true clean package -pl DbWorker,Common
+RUN mvn clean package -pl DbWorker,Common
 
 FROM openjdk:11.0-jre
 WORKDIR /app
